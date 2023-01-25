@@ -1,8 +1,8 @@
-import org.AC.AC4;
-import org.AC.AC6;
+import solver.AC.AC6;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AC6Test {
@@ -20,11 +20,24 @@ public class AC6Test {
 
         assertTrue(ac6.init(UtilTest.graph1));
 
-        System.out.println((ac6.getDomaine()));
+        System.out.println((ac6.getSupport()));
 
         assertTrue(ac6.filtre(UtilTest.DE1));
 
-        System.out.println((ac6.getDomaine()));
+        System.out.println((ac6.getSupport()));
+
+    }
+
+    @Test
+    void ac62() {
+
+        assertTrue(ac6.init(UtilTest.graph1));
+
+        System.out.println((ac6.getSupport()));
+
+        assertTrue(ac6.filtre(UtilTest.DE3));
+
+        System.out.println((ac6.getSupport()));
 
     }
 }

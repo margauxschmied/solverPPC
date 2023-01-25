@@ -1,12 +1,11 @@
-package org.graph;
+package solver.graph;
 
-public class Edge {
-
+public class Pair {
     private String variable;
     private String domaine;
 
-    public Edge(String valeur, String domaine) {
-        this.variable = valeur;
+    public Pair(String variable, String domaine) {
+        this.variable = variable;
         this.domaine = domaine;
     }
 
@@ -20,8 +19,6 @@ public class Edge {
 
     @Override
     public String toString() {
-        return "[" + variable +
-                "," + domaine +
-                "]";
+        return domaine;
     }
 }

@@ -1,24 +1,29 @@
-package org.graph;
+package solver.graph;
 
 import java.util.List;
 
 public class Variable {
     private String name;
-    private List<String> domaine;
+    private List<Domaine> domaine;
+    private List<Contrainte> contraintes;
 
-    public Variable(String name, List<String> domaine) {
+    public Variable(String name, List<Domaine> domaine, List<Contrainte> contraintes) {
         this.name = name;
         this.domaine = domaine;
+        this.contraintes=contraintes;
     }
 
     public String getName() {
         return name;
     }
 
-    public List<String> getDomaine() {
+    public List<Domaine> getDomaine() {
         return domaine;
     }
 
+    public List<Contrainte> getContraintes() {
+        return contraintes;
+    }
 
     @Override
     public String toString() {
