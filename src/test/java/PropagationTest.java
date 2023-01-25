@@ -204,4 +204,5 @@ public class PropagationTest {
         System.out.println(propagation.getResulat());
 
     }
+
 }
