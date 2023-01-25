@@ -1,5 +1,6 @@
 package solver.graph;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Variable {
@@ -13,6 +14,12 @@ public class Variable {
         this.contraintes=contraintes;
     }
 
+    public Variable(String name) {
+        this.name = name;
+        this.domaine = new ArrayList<>();
+        this.contraintes=new ArrayList<>();
+    }
+
     public String getName() {
         return name;
     }
@@ -23,6 +30,18 @@ public class Variable {
 
     public List<Contrainte> getContraintes() {
         return contraintes;
+    }
+
+    public void addDomaine(Domaine d){
+        if(domaine.size()!=0){
+            d.setPrecedent(domaine.get(domaine.size()-1).getVal());
+            domaine.get(domaine.size()-1).setNext(d.getVal());
+        }
+        domaine.add(d);
+    }
+
+    public void addContrainte(Contrainte c){
+        contraintes.add(c);
     }
 
     @Override

@@ -45,12 +45,10 @@ public class AC3 implements AC{
             for(int j=0; j<variable.getValue().getDomaine().size(); j++){
                 for(int k=0; k<variable.getValue().getContraintes().size(); k++){
                     int kf=k;
-                    if(variable.getValue().getDomaine().get(j).equals(variable.getValue().getContraintes().get(k).getD1())
+                    if(variable.getValue().getDomaine().get(j).getVar().equals(variable.getValue().getContraintes().get(k).getD1().getVar())
+                            && variable.getValue().getDomaine().get(j).getVal().equals(variable.getValue().getContraintes().get(k).getD1().getVal())
                             && DE.stream().noneMatch(o -> variable.getValue().getContraintes().get(kf).getD1().getVar().equals(o.getVariable()) && variable.getValue().getContraintes().get(kf).getD1().getVal().equals(o.getDomaine()))
                             && DE.stream().noneMatch(o -> variable.getValue().getContraintes().get(kf).getD2().getVar().equals(o.getVariable()) && variable.getValue().getContraintes().get(kf).getD2().getVal().equals(o.getDomaine()))){
-
-//                            && !DE.contains(variable.getValue().getContraintes().get(k).getD1().getVal())
-//                            && !DE.contains(variable.getValue().getContraintes().get(k).getD2().getVal())){
                         support.get(variable.getKey()).computeIfAbsent(variable.getValue().getDomaine().get(j).getVal(), k1 -> new ArrayList<>());
 
                         support.get(variable.getKey()).get(variable.getValue().getContraintes().get(k).getD1().getVal()).add(new Pair(variable.getValue().getContraintes().get(k).getD2().getVar(), variable.getValue().getContraintes().get(k).getD2().getVal()));

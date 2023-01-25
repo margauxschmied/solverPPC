@@ -20,7 +20,8 @@ public class AC4 implements AC{
 
             for(int j=0; j<variable.getValue().getDomaine().size(); j++){
                 for(int k=0; k<variable.getValue().getContraintes().size(); k++){
-                    if(variable.getValue().getDomaine().get(j).equals(variable.getValue().getContraintes().get(k).getD1())){
+                    if(variable.getValue().getDomaine().get(j).getVar().equals(variable.getValue().getContraintes().get(k).getD1().getVar())
+                        && variable.getValue().getDomaine().get(j).getVal().equals(variable.getValue().getContraintes().get(k).getD1().getVal())){
                         support.get(variable.getKey()).computeIfAbsent(variable.getValue().getContraintes().get(k).getD1().getVal(), k1 -> new ArrayList<>());
                         support.get(variable.getKey()).get(variable.getValue().getContraintes().get(k).getD1().getVal()).add(new Pair(variable.getValue().getContraintes().get(k).getD2().getVar(), variable.getValue().getContraintes().get(k).getD2().getVal()));
 
@@ -75,7 +76,8 @@ public class AC4 implements AC{
             for (Map.Entry<String, Map<String, List<Pair>>> supVar : support.entrySet()) {
                 for (Map.Entry<String, List<Pair>> supDom : supVar.getValue().entrySet()) {
                     for(int i=0; i<supDom.getValue().size(); i++){
-                        if(Objects.equals(supDom.getValue().get(i).getVariable(), de.get(de.size() - 1).getVariable()) && Objects.equals(supDom.getValue().get(i).getDomaine(), de.get(de.size() - 1).getDomaine())){
+                        if(Objects.equals(supDom.getValue().get(i).getVariable(), de.get(de.size() - 1).getVariable())
+                                && Objects.equals(supDom.getValue().get(i).getDomaine(), de.get(de.size() - 1).getDomaine())){
                             listDeSupportAUpdate.add(new Pair(supVar.getKey(), supDom.getKey()));
                             support.get(de.get(de.size()-1).getVariable()).computeIfAbsent(de.get(de.size()-1).getDomaine(), k1 -> new ArrayList<>());
                             support.get(de.get(de.size() - 1).getVariable()).get(de.get(de.size() - 1).getDomaine()).add(new Pair(supVar.getKey(), supDom.getKey()));

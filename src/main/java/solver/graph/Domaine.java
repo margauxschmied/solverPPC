@@ -13,6 +13,11 @@ public class Domaine {
         this.var=var;
     }
 
+    public Domaine(String val, String var) {
+        this.val = val;
+        this.var = var;
+    }
+
     public String getVal() {
         return val;
     }
@@ -23,6 +28,14 @@ public class Domaine {
 
     public String getNext() {
         return next;
+    }
+
+    public void setPrecedent(String precedent) {
+        this.precedent = precedent;
+    }
+
+    public void setNext(String next) {
+        this.next = next;
     }
 
     @Override

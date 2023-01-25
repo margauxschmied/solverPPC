@@ -3,7 +3,12 @@ import org.junit.jupiter.api.Test;
 import solver.AC.AC3;
 import solver.AC.AC4;
 import solver.AC.AC6;
+import solver.Parser;
 import solver.Propagation;
+import solver.graph.Variable;
+
+import java.io.FileNotFoundException;
+import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -62,6 +67,22 @@ public class PropagationTest {
     }
 
     @Test
+    void propagationAC35() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/test.txt");
+        System.out.println(graph);
+        propagation =new Propagation(new AC3(), graph);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertTrue(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
     void propagationAC4() {
         propagation =new Propagation(new AC4(), UtilTest.graph1);
 
@@ -109,6 +130,22 @@ public class PropagationTest {
     }
 
     @Test
+    void propagationAC45() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/test.txt");
+
+        propagation =new Propagation(new AC4(), graph);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertTrue(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
     void propagationAC6() {
         propagation =new Propagation(new AC6(), UtilTest.graph1);
         System.out.println(propagation.getAc().getSupport());
@@ -150,5 +187,21 @@ public class PropagationTest {
 
         System.out.println(propagation.getAc().getSupport());
         System.out.println(propagation.getResulat());
+    }
+
+    @Test
+    void propagationAC65() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/test.txt");
+
+        propagation =new Propagation(new AC6(), graph);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertTrue(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
     }
 }
