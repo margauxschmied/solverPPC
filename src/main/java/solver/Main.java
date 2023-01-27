@@ -1,9 +1,6 @@
 package solver;
 
-import solver.AC.AC;
-import solver.AC.AC3;
-import solver.AC.AC4;
-import solver.AC.AC6;
+import solver.AC.*;
 import solver.graph.Variable;
 
 import java.io.FileNotFoundException;
@@ -24,6 +21,8 @@ public class Main {
                     case "AC3" -> ac = new AC3();
                     case "AC4" -> ac = new AC4();
                     case "AC6" -> ac = new AC6();
+                    case "AC2001" -> ac = new AC2001();
+
                     default -> System.out.println("AC non reconnue");
                 }
             }

@@ -4,18 +4,18 @@ public class Domaine {
     private String val;
     private String precedent;
     private String next;
-    private String var;
+    private String variable;
 
     public Domaine(String val, String precedent, String next, String var) {
         this.val = val;
         this.precedent = precedent;
         this.next = next;
-        this.var=var;
+        this.variable =var;
     }
 
     public Domaine(String val, String var) {
         this.val = val;
-        this.var = var;
+        this.variable = var;
     }
 
     public String getVal() {
@@ -43,7 +43,7 @@ public class Domaine {
         return val;
     }
 
-    public String getVar() {
-        return var;
+    public String getVariable() {
+        return variable;
     }
 }

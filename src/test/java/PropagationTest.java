@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import solver.AC.AC2001;
 import solver.AC.AC3;
 import solver.AC.AC4;
 import solver.AC.AC6;
@@ -196,6 +197,66 @@ public class PropagationTest {
         Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/test.txt");
 
         propagation =new Propagation(new AC6(), graph);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertTrue(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
+    void propagationAC2001() {
+        propagation =new Propagation(new AC2001(), UtilTest.graph1);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertTrue(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
+    void propagationAC20012() {
+        propagation =new Propagation(new AC2001(), UtilTest.graph2);
+
+        assertTrue(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+    }
+
+    @Test
+    void propagationAC20013() {
+        propagation =new Propagation(new AC2001(), UtilTest.graph3);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertTrue(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+    }
+
+    @Test
+    void propagationAC20014() {
+        propagation =new Propagation(new AC2001(), UtilTest.graph4);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertFalse(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+    }
+
+    @Test
+    void propagationAC20015() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/test.txt");
+
+        propagation =new Propagation(new AC2001(), graph);
         System.out.println(propagation.getAc().getSupport());
 
         assertTrue(propagation.accept(0));
