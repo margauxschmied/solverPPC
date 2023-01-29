@@ -1,14 +1,12 @@
 package solver.AC;
 
-import solver.graph.Contrainte;
-import solver.graph.Pair;
-import solver.graph.Variable;
+import solver.graph.*;
 
 import java.util.*;
 
 public class AC6 implements AC{
     private Map<String, Variable> graph;
-    private Map<String, Map<String, List<Pair>>> support;
+    private Map<String, Map<String, Chaine>> support;
 
     @Override
     public boolean init(Map<String, Variable> graph) {
@@ -22,13 +20,13 @@ public class AC6 implements AC{
                 for(int k=0; k<variable.getValue().getContraintes().size(); k++){
                     if(!found && variable.getValue().getDomaine().get(j).equals(variable.getValue().getContraintes().get(k).getD1())){
                         support.computeIfAbsent(variable.getValue().getContraintes().get(k).getD2().getVariable(), k1 -> new HashMap<>());
-                        support.get(variable.getValue().getContraintes().get(k).getD2().getVariable()).computeIfAbsent(variable.getValue().getContraintes().get(k).getD2().getVal(), k1 -> new ArrayList<>());
-                        support.get(variable.getValue().getContraintes().get(k).getD2().getVariable()).get(variable.getValue().getContraintes().get(k).getD2().getVal()).add(new Pair(variable.getValue().getContraintes().get(k).getD1().getVariable(), variable.getValue().getContraintes().get(k).getD1().getVal()));
+                        support.get(variable.getValue().getContraintes().get(k).getD2().getVariable()).computeIfAbsent(variable.getValue().getContraintes().get(k).getD2().getDomaine(), k1 -> new Chaine());
+                        support.get(variable.getValue().getContraintes().get(k).getD2().getVariable()).get(variable.getValue().getContraintes().get(k).getD2().getDomaine()).add(variable.getValue().getContraintes().get(k).getD1());
                         found=true;
                     }
 
                     if(found && variable.getValue().getDomaine().get(j).equals(variable.getValue().getContraintes().get(k).getD1())){
-                        support.get(variable.getValue().getContraintes().get(k).getD2().getVariable()).computeIfAbsent(variable.getValue().getContraintes().get(k).getD2().getVal(), k1 -> new ArrayList<>());
+                        support.get(variable.getValue().getContraintes().get(k).getD2().getVariable()).computeIfAbsent(variable.getValue().getContraintes().get(k).getD2().getDomaine(), k1 -> new Chaine());
                     }
                 }
             }
@@ -48,30 +46,38 @@ public class AC6 implements AC{
     }
 
     @Override
-    public boolean filtre(List<Pair> DE) {
-        for (Pair value : DE) {
-            List<Pair> listDeSupportAUpdate = support.get(value.getVariable()).get(value.getDomaine());
-            if (listDeSupportAUpdate != null) {
-                for (Pair pair : listDeSupportAUpdate) {
+    public boolean filtre(List<Domaine> DE) {
+        for (Domaine value : DE) {
+            Chaine chaineDeSupportAUpdate = support.get(value.getVariable()).get(value.getDomaine());
+            if (chaineDeSupportAUpdate != null) {
+                Domaine domaine=chaineDeSupportAUpdate.getDomaine();
+                while(domaine!=null){
+//                for (Domaine domaine : chaineDeSupportAUpdate) {
                     int found = -1;
 
-                    for (int j = 0; j < graph.get(pair.getVariable()).getContraintes().size(); j++) {
+                    for (int j = 0; j < graph.get(domaine.getVariable()).getContraintes().size(); j++) {
 
                         if (found == -1
-                                && graph.get(pair.getVariable()).getContraintes().get(j).getD1().getVariable().equals(pair.getVariable())
-                                && graph.get(pair.getVariable()).getContraintes().get(j).getD1().getVal().equals(pair.getDomaine())) {
+                                && graph.get(domaine.getVariable()).getContraintes().get(j).getD1().equals(domaine)) {
                             found = 0;
                         }
                         else if(found==0
-                                && graph.get(pair.getVariable()).getContraintes().get(j).getD1().getVal().equals(pair.getDomaine())
-                                && support.get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVariable()).get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVal()).stream().noneMatch(o -> pair.getVariable().equals(o.getVariable()) && pair.getDomaine().equals(o.getDomaine()))){
-                           support.get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVariable()).get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVal()).add(new Pair(pair.getVariable(), pair.getDomaine()));
+                                && graph.get(domaine.getVariable()).getContraintes().get(j).getD1().equals(domaine)
+                                && !support.get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getVariable()).get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getDomaine()).contain(domaine)){
+                            support.get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getVariable()).get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getDomaine()).add(domaine);
                            found = 1;
                        }
 
                     }
                     if (found == -1) {
                         return false;
+                    }
+                    chaineDeSupportAUpdate=chaineDeSupportAUpdate.getSuivant();
+                    if(chaineDeSupportAUpdate==null){
+                        domaine=null;
+                    }
+                    else{
+                        domaine=chaineDeSupportAUpdate.getDomaine();
                     }
                 }
             }
@@ -81,28 +87,43 @@ public class AC6 implements AC{
     }
 
     @Override
-    public void backtrack(int pop, List<Pair> de) {
+    public void backtrack(int pop, List<Domaine> de) {
         for(int n=0; n<pop; n++){
-            List<Pair> listDeSupportAUpdate = support.get(de.get(de.size()-1).getVariable()).get(de.get(de.size()-1).getDomaine());
-            if (listDeSupportAUpdate != null) {
-                for (Pair pair : listDeSupportAUpdate) {
+            Chaine chaineDeSupportAUpdate = support.get(de.get(de.size()-1).getVariable()).get(de.get(de.size()-1).getDomaine());
+            if (chaineDeSupportAUpdate != null) {
+                Domaine domaine=chaineDeSupportAUpdate.getDomaine();
+                while(domaine!=null){
+//                for (Domaine domaine : chaineDeSupportAUpdate) {
                     int found = -1;
-                    for (int j = 0; j < graph.get(pair.getVariable()).getContraintes().size(); j++) {
+                    for (int j = 0; j < graph.get(domaine.getVariable()).getContraintes().size(); j++) {
 
                         if (found == -1
-                                && graph.get(pair.getVariable()).getContraintes().get(j).getD1().getVariable().equals(pair.getVariable())
-                                && graph.get(pair.getVariable()).getContraintes().get(j).getD1().getVal().equals(pair.getDomaine())) {
+                                && graph.get(domaine.getVariable()).getContraintes().get(j).getD1().equals(domaine)) {
                             found = 0;
                         }
-                        else if((!graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVariable().equals(de.get(de.size()-1).getVariable())
-                                || !graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVal().equals(de.get(de.size()-1).getDomaine()))
-                                && graph.get(pair.getVariable()).getContraintes().get(j).getD1().getVariable().equals(pair.getVariable())
-                                && graph.get(pair.getVariable()).getContraintes().get(j).getD1().getVal().equals(pair.getDomaine())){
-                                //&& support.get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVar()).get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVal()).stream().noneMatch(o -> pair.getVariable().equals(o.getVariable()) && pair.getDomaine().equals(o.getDomaine()))){
-                            support.get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVariable()).get(graph.get(pair.getVariable()).getContraintes().get(j).getD2().getVal()).removeIf(o -> pair.getVariable().equals(o.getVariable()) && pair.getDomaine().equals(o.getDomaine()));
+                        else if((!graph.get(domaine.getVariable()).getContraintes().get(j).getD2().equals(de.get(de.size()-1))
+                                && graph.get(domaine.getVariable()).getContraintes().get(j).getD1().equals(domaine))){
+                            Chaine c=support.get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getVariable()).get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getDomaine()).remove(domaine);
+                            if(c!= null){
+                                if(c.equals(support.get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getVariable()).get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getDomaine()))) {
+                                    if (c.getSuivant() != null) {
+                                        support.get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getVariable()).put(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getDomaine(), c.getSuivant());
+                                    } else {
+                                        support.get(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getVariable()).put(graph.get(domaine.getVariable()).getContraintes().get(j).getD2().getDomaine(), new Chaine());
+                                    }
+                                }
+                            }
+
                             found = 1;
                         }
 
+                    }
+                    chaineDeSupportAUpdate=chaineDeSupportAUpdate.getSuivant();
+                    if(chaineDeSupportAUpdate==null){
+                        domaine=null;
+                    }
+                    else{
+                        domaine=chaineDeSupportAUpdate.getDomaine();
                     }
                 }
             }
@@ -112,14 +133,13 @@ public class AC6 implements AC{
     }
 
     @Override
-    public boolean validChoice(Stack<Pair> peek, String v, String d, List<Pair> DE) { //TODO: a revoir
-        return graph.get(peek.peek().getVariable()).getContraintes().stream().anyMatch(o -> peek.peek().getDomaine().equals(o.getD1().getVal())
-                && v.equals(o.getD2().getVariable()) && d.equals(o.getD2().getVal()));
-//        return support.get(v).get(d).stream().anyMatch(o -> peek.peek().getVariable().equals(o.getVariable()) && peek.peek().getDomaine().equals(o.getDomaine()));
+    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) { //TODO: a revoir
+        return graph.get(peek.peek().getVariable()).getContraintes().stream().anyMatch(o -> peek.peek().equals(o.getD1())
+                && v.equals(o.getD2().getVariable()) && d.equals(o.getD2().getDomaine()));
     }
 
     @Override
-    public Map<String, Map<String, List<Pair>>> getSupport() {
+    public Map<String, Map<String, Chaine>> getSupport() {
         return support;
     }
 }

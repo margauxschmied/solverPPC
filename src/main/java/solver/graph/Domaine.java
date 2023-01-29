@@ -1,46 +1,58 @@
 package solver.graph;
 
 public class Domaine {
-    private String val;
-    private String precedent;
-    private String next;
+    private String domaine;
+    private Domaine precedent;
+    private Domaine next;
     private String variable;
 
-    public Domaine(String val, String precedent, String next, String var) {
-        this.val = val;
+    private int lastIndex;
+
+    public Domaine(String val, Domaine precedent, Domaine next, String var, int lastIndex) {
+        this.domaine = val;
         this.precedent = precedent;
         this.next = next;
         this.variable =var;
+        this.lastIndex=lastIndex;
     }
 
-    public Domaine(String val, String var) {
-        this.val = val;
+    public Domaine(String val, String var, int lastIndex) {
+        this.domaine = val;
         this.variable = var;
+        this.lastIndex=lastIndex;
     }
 
-    public String getVal() {
-        return val;
+    public boolean equals(Domaine d){
+        return variable.equals(d.variable) && domaine.equals(d.domaine);
     }
 
-    public String getPrecedent() {
+    public String getDomaine() {
+        return domaine;
+    }
+
+    public Domaine getPrecedent() {
         return precedent;
     }
 
-    public String getNext() {
+    public Domaine getNext() {
         return next;
     }
 
-    public void setPrecedent(String precedent) {
+    public int getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setPrecedent(Domaine precedent) {
         this.precedent = precedent;
     }
 
-    public void setNext(String next) {
+    public void setNext(Domaine next) {
         this.next = next;
     }
 
     @Override
     public String toString() {
-        return val;
+        return domaine;
     }
 
     public String getVariable() {

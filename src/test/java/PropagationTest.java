@@ -27,6 +27,7 @@ public class PropagationTest {
     @Test
     void propagationAC3() {
         propagation =new Propagation(new AC3(), UtilTest.graph1);
+        System.out.println(propagation.getAc().getSupport());
 
         assertTrue(propagation.accept(0));
 
@@ -84,6 +85,18 @@ public class PropagationTest {
     }
 
     @Test
+    void propagationAC36() {
+        propagation =new Propagation(new AC3(), UtilTest.graph5);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertFalse(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
     void propagationAC4() {
         propagation =new Propagation(new AC4(), UtilTest.graph1);
 
@@ -119,9 +132,6 @@ public class PropagationTest {
     void propagationAC44() {
         propagation =new Propagation(new AC4(), UtilTest.graph4);
         System.out.println(propagation.getAc().getSupport());
-//        propagation.accept(0);
-//        propagation.getAc().getSupport();
-//        System.out.println(propagation.getResulat());
 
         assertFalse(propagation.accept(0));
 
@@ -144,6 +154,18 @@ public class PropagationTest {
         System.out.println(propagation.getAc().getSupport());
         System.out.println(propagation.getResulat());
 
+    }
+
+    @Test
+    void propagationAC46() {
+        propagation =new Propagation(new AC4(), UtilTest.graph5);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertFalse(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+        System.out.println(propagation.getDE());
     }
 
     @Test
@@ -207,6 +229,17 @@ public class PropagationTest {
     }
 
     @Test
+    void propagationAC66() {
+        propagation =new Propagation(new AC6(), UtilTest.graph5);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertFalse(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+    }
+
+    @Test
     void propagationAC2001() {
         propagation =new Propagation(new AC2001(), UtilTest.graph1);
         System.out.println(propagation.getAc().getSupport());
@@ -264,6 +297,17 @@ public class PropagationTest {
         System.out.println(propagation.getAc().getSupport());
         System.out.println(propagation.getResulat());
 
+    }
+
+    @Test
+    void propagationAC20016() {
+        propagation =new Propagation(new AC2001(), UtilTest.graph5);
+        System.out.println(propagation.getAc().getSupport());
+
+        assertFalse(propagation.accept(0));
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
     }
 
 }

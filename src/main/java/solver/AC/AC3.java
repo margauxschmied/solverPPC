@@ -1,5 +1,7 @@
 package solver.AC;
 
+import solver.graph.Chaine;
+import solver.graph.Domaine;
 import solver.graph.Pair;
 import solver.graph.Variable;
 
@@ -7,7 +9,7 @@ import java.util.*;
 
 public class AC3 implements AC{
     private Map<String, Variable> graph;
-    private Map<String, Map<String, List<Pair>>> support;
+    private Map<String, Map<String, Chaine>> support;
 
 
     @Override
@@ -20,11 +22,9 @@ public class AC3 implements AC{
             support.put(variable.getKey(), new HashMap<>());
             for(int j=0; j<variable.getValue().getDomaine().size(); j++){
                 for(int k=0; k<variable.getValue().getContraintes().size(); k++) {
-                    if (variable.getValue().getDomaine().get(j).getVariable().equals(variable.getValue().getContraintes().get(k).getD1().getVariable())
-                            && variable.getValue().getDomaine().get(j).getVal().equals(variable.getValue().getContraintes().get(k).getD1().getVal())) {
-                        support.get(variable.getKey()).computeIfAbsent(variable.getValue().getDomaine().get(j).getVal(), k1 -> new ArrayList<>());
-
-                        support.get(variable.getKey()).get(variable.getValue().getContraintes().get(k).getD1().getVal()).add(new Pair(variable.getValue().getContraintes().get(k).getD2().getVariable(), variable.getValue().getContraintes().get(k).getD2().getVal()));
+                    if (variable.getValue().getDomaine().get(j).equals(variable.getValue().getContraintes().get(k).getD1())){
+                        support.get(variable.getKey()).computeIfAbsent(variable.getValue().getDomaine().get(j).getDomaine(), k1 -> new Chaine());
+                        support.get(variable.getKey()).get(variable.getValue().getContraintes().get(k).getD1().getDomaine()).add(variable.getValue().getContraintes().get(k).getD2());
                         break;
                     }
                 }
@@ -38,7 +38,7 @@ public class AC3 implements AC{
     }
 
     @Override
-    public boolean filtre(List<Pair> DE) {
+    public boolean filtre(List<Domaine> DE) {
         this.support=new HashMap();
 
         for (Map.Entry<String, Variable> variable : graph.entrySet()) {
@@ -46,13 +46,11 @@ public class AC3 implements AC{
             for(int j=0; j<variable.getValue().getDomaine().size(); j++){
                 for(int k=0; k<variable.getValue().getContraintes().size(); k++){
                     int kf=k;
-                    if(variable.getValue().getDomaine().get(j).getVariable().equals(variable.getValue().getContraintes().get(k).getD1().getVariable())
-                            && variable.getValue().getDomaine().get(j).getVal().equals(variable.getValue().getContraintes().get(k).getD1().getVal())
-                            && DE.stream().noneMatch(o -> variable.getValue().getContraintes().get(kf).getD1().getVariable().equals(o.getVariable()) && variable.getValue().getContraintes().get(kf).getD1().getVal().equals(o.getDomaine()))
-                            && DE.stream().noneMatch(o -> variable.getValue().getContraintes().get(kf).getD2().getVariable().equals(o.getVariable()) && variable.getValue().getContraintes().get(kf).getD2().getVal().equals(o.getDomaine()))){
-                        support.get(variable.getKey()).computeIfAbsent(variable.getValue().getDomaine().get(j).getVal(), k1 -> new ArrayList<>());
-
-                        support.get(variable.getKey()).get(variable.getValue().getContraintes().get(k).getD1().getVal()).add(new Pair(variable.getValue().getContraintes().get(k).getD2().getVariable(), variable.getValue().getContraintes().get(k).getD2().getVal()));
+                    if(variable.getValue().getDomaine().get(j).equals(variable.getValue().getContraintes().get(k).getD1())
+                            && DE.stream().noneMatch(o -> variable.getValue().getContraintes().get(kf).getD1().equals(o))
+                            && DE.stream().noneMatch(o -> variable.getValue().getContraintes().get(kf).getD2().equals(o))){
+                        support.get(variable.getKey()).computeIfAbsent(variable.getValue().getDomaine().get(j).getDomaine(), k1 -> new Chaine());
+                        support.get(variable.getKey()).get(variable.getValue().getContraintes().get(k).getD1().getDomaine()).add(variable.getValue().getContraintes().get(k).getD2());
                         break;
                     }
                 }
@@ -66,20 +64,20 @@ public class AC3 implements AC{
 
 
     @Override
-    public void backtrack(int pop, List<Pair> de) {
+    public void backtrack(int pop, List<Domaine> de) {
         for(int n=0; n<pop; n++){
             de.remove(de.size()-1);
         }
     }
 
     @Override
-    public boolean validChoice(Stack<Pair> peek, String v, String d, List<Pair> DE) {
+    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) {
         return true;
     }
 
 
     @Override
-    public Map<String, Map<String, List<Pair>>> getSupport() {
+    public Map<String, Map<String, Chaine>> getSupport() {
         return support;
     }
 

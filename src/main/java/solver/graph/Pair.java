@@ -4,6 +4,7 @@ public class Pair {
     private String variable;
     private String domaine;
 
+
     public Pair(String variable, String domaine) {
         this.variable = variable;
         this.domaine = domaine;

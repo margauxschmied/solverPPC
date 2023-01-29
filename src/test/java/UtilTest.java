@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class UtilTest {
 
-    public static List<Pair> DE1 = new ArrayList<>();
+    public static List<Domaine> DE1 = new ArrayList<>();
     public static List<Pair> DE2 = new ArrayList<>();
     public static List<Pair> DE3 = new ArrayList<>();
 
@@ -19,26 +19,28 @@ public class UtilTest {
     public static Map<String, Variable> graph3;
 
     public static Map<String, Variable> graph4;
+    public static Map<String, Variable> graph5;
+
 
 
 
 
     public static void setUp() {
-        Domaine ia=new Domaine("ia", null, "ib", "i");
-        Domaine ib=new Domaine("ib", "ia", "ic", "i");
-        Domaine ic=new Domaine("ic", "ib", "id", "i");
-        Domaine id=new Domaine("id", "ic", "ie", "i");
-        Domaine ie=new Domaine("ie", "id", null, "i");
+        Domaine ia=new Domaine("ia", "i", 0);
+        Domaine ib=new Domaine("ib", "i", 1);
+        Domaine ic=new Domaine("ic",  "i", 2);
+        Domaine id=new Domaine("id",  "i", 3);
+        Domaine ie=new Domaine("ie",  "i", 4);
 
-        Domaine ja=new Domaine("ja", null, "jb", "j");
-        Domaine jb=new Domaine("jb", "ja", "jc", "j");
-        Domaine jc=new Domaine("jc", "jb", "jd", "j");
-        Domaine jd=new Domaine("jd", "jc", "je", "j");
-        Domaine je=new Domaine("je", "jd", null, "j");
+        Domaine ja=new Domaine("ja",  "j", 0);
+        Domaine jb=new Domaine("jb",  "j", 1);
+        Domaine jc=new Domaine("jc",  "j", 2);
+        Domaine jd=new Domaine("jd", "j", 3);
+        Domaine je=new Domaine("je",  "j", 4);
 
-        Domaine ka=new Domaine("ka", null, "kb", "k");
-        Domaine kb=new Domaine("kb", "ka", "kc", "k");
-        Domaine kc=new Domaine("kc", "kb", null, "k");
+        Domaine ka=new Domaine("ka",  "k", 0);
+        Domaine kb=new Domaine("kb",  "k", 1);
+        Domaine kc=new Domaine("kc",  "k", 2);
 
 
         Contrainte iaja=new Contrainte(ia, ja);
@@ -55,10 +57,31 @@ public class UtilTest {
         Contrainte jbkb=new Contrainte(jb, kb);
         Contrainte jckc=new Contrainte(jc, kc);
 
-        Variable i=new Variable("i", List.of(ia, ib, ic, id, ie), List.of(iaja, iajc, ibja, ibje, icjb, icjd, idjc, idje, ieje));
-        Variable j=new Variable("i", List.of(ja, jb, jc, jd, je), new ArrayList<>());
-        Variable j2=new Variable("i", List.of(ja, jb, jc, jd, je), List.of(jbkb));
-        Variable k=new Variable("k", List.of(ka, kb, kc), new ArrayList<>());
+        Variable i=new Variable("i", List.of(iaja, iajc, ibja, ibje, icjb, icjd, idjc, idje, ieje));
+        i.addDomaine(ia);
+        i.addDomaine(ib);
+        i.addDomaine(ic);
+        i.addDomaine(id);
+        i.addDomaine(ie);
+
+        Variable j=new Variable("i", new ArrayList<>());
+        j.addDomaine(ja);
+        j.addDomaine(jb);
+        j.addDomaine(jc);
+        j.addDomaine(jd);
+        j.addDomaine(je);
+
+        Variable j2=new Variable("i", List.of(jbkb));
+        j2.addDomaine(ja);
+        j2.addDomaine(jb);
+        j2.addDomaine(jc);
+        j2.addDomaine(jd);
+        j2.addDomaine(je);
+
+        Variable k=new Variable("k", new ArrayList<>());
+        k.addDomaine(ka);
+        k.addDomaine(kb);
+        k.addDomaine(kc);
 
         graph1=new HashMap<>();
         graph1.put("i", i);
@@ -74,12 +97,12 @@ public class UtilTest {
         graph3.put("k", k);
 
 
-        Domaine Aa=new Domaine("Aa", null, "Ab", "A");
-        Domaine Ab=new Domaine("Ab", "Aa", null, "A");
-        Domaine Ba=new Domaine("Ba", null, "Bb", "B");
-        Domaine Bb=new Domaine("Bb", "Ba", null, "B");
-        Domaine Ca=new Domaine("Ca", null, "Cb", "C");
-        Domaine Cb=new Domaine("Cb", "Ca", null, "C");
+        Domaine Aa=new Domaine("Aa", "A", 0);
+        Domaine Ab=new Domaine("Ab", "A", 1);
+        Domaine Ba=new Domaine("Ba", "B", 0);
+        Domaine Bb=new Domaine("Bb", "B", 1);
+        Domaine Ca=new Domaine("Ca", "C", 0);
+        Domaine Cb=new Domaine("Cb", "C", 1);
 
 
         Contrainte AaBa=new Contrainte(Aa, Ba);
@@ -89,17 +112,58 @@ public class UtilTest {
         Contrainte BbCa=new Contrainte(Bb, Ca);
         Contrainte CaAa=new Contrainte(Ca, Aa);
 
-        Variable A=new Variable("A", List.of(Aa, Ab), List.of(AaBa, AbBb));
-        Variable B=new Variable("B", List.of(Ba, Bb), List.of(BaCb, BbCa));
-        Variable C=new Variable("C", List.of(Ca, Cb), List.of(CaAa, CbAb));
+        Variable A=new Variable("A", List.of(AaBa, AbBb));
+        A.addDomaine(Aa);
+        A.addDomaine(Ab);
+
+        Variable B=new Variable("B", List.of(BaCb, BbCa));
+        B.addDomaine(Ba);
+        B.addDomaine(Bb);
+
+        Variable C=new Variable("C", List.of(CaAa, CbAb));
+        C.addDomaine(Ca);
+        C.addDomaine(Cb);
 
         graph4=new HashMap<>();
         graph4.put("A", A);
         graph4.put("B", B);
         graph4.put("C", C);
 
+        Domaine A1=new Domaine("A1", "A", 0);
+        Domaine A2=new Domaine("A2", "A", 1);
+        Domaine B1=new Domaine("B1", "B", 0);
+        Domaine B2=new Domaine("B2", "B", 1);
+        Domaine B3=new Domaine("B3", "B", 2);
+        Domaine C1=new Domaine("C1", "C", 0);
 
-        DE1.add(new Pair("j", "jc"));
+
+        Contrainte A1B1=new Contrainte(A1, B1);
+        Contrainte A1B2=new Contrainte(A1, B2);
+        Contrainte A1B3=new Contrainte(A1, B3);
+        Contrainte B1C1=new Contrainte(B1, C1);
+        Contrainte B2C1=new Contrainte(B2, C1);
+        Contrainte B3C1=new Contrainte(B3, C1);
+        Contrainte C1A2=new Contrainte(C1, A2);
+
+        Variable Abis=new Variable("A", List.of(A1B1, A1B2, A1B3));
+        Abis.addDomaine(A1);
+        Abis.addDomaine(A2);
+
+        Variable Bbis=new Variable("B", List.of(B1C1, B2C1, B3C1));
+        Bbis.addDomaine(B1);
+        Bbis.addDomaine(B2);
+        Bbis.addDomaine(B3);
+
+        Variable Cbis=new Variable("C", List.of(C1A2));
+        Cbis.addDomaine(C1);
+
+        graph5=new HashMap<>();
+        graph5.put("A", Abis);
+        graph5.put("B", Bbis);
+        graph5.put("C", Cbis);
+
+
+        DE1.add(jc);
 
         DE2.add(new Pair("i", "ib"));
         DE2.add(new Pair("i", "ic"));

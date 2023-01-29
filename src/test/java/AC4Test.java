@@ -35,7 +35,7 @@ public class AC4Test {
 
         System.out.println((ac4.getSupport()));
 
-        assertTrue(ac4.filtre(UtilTest.DE2));
+        assertTrue(ac4.filtre(UtilTest.DE1));
 
         System.out.println((ac4.getSupport()));
 
@@ -48,7 +48,7 @@ public class AC4Test {
 
         System.out.println((ac4.getSupport()));
 
-        assertTrue(ac4.filtre(UtilTest.DE2));
+        assertTrue(ac4.filtre(UtilTest.DE1));
 
         System.out.println((ac4.getSupport()));
 

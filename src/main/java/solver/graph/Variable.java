@@ -20,6 +20,12 @@ public class Variable {
         this.contraintes=new ArrayList<>();
     }
 
+    public Variable(String name, List<Contrainte> contraintes) {
+        this.name = name;
+        this.contraintes = contraintes;
+        this.domaine = new ArrayList<>();
+    }
+
     public String getName() {
         return name;
     }
@@ -34,8 +40,8 @@ public class Variable {
 
     public void addDomaine(Domaine d){
         if(domaine.size()!=0){
-            d.setPrecedent(domaine.get(domaine.size()-1).getVal());
-            domaine.get(domaine.size()-1).setNext(d.getVal());
+            d.setPrecedent(domaine.get(domaine.size()-1));
+            domaine.get(domaine.size()-1).setNext(d);
         }
         domaine.add(d);
     }
