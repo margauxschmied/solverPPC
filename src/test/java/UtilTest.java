@@ -26,21 +26,21 @@ public class UtilTest {
 
 
     public static void setUp() {
-        Domaine ia=new Domaine("ia", "i", 0);
-        Domaine ib=new Domaine("ib", "i", 1);
-        Domaine ic=new Domaine("ic",  "i", 2);
-        Domaine id=new Domaine("id",  "i", 3);
-        Domaine ie=new Domaine("ie",  "i", 4);
+        Domaine ia=new Domaine("a", "i", 0);
+        Domaine ib=new Domaine("b", "i", 1);
+        Domaine ic=new Domaine("c",  "i", 2);
+        Domaine id=new Domaine("d",  "i", 3);
+        Domaine ie=new Domaine("e",  "i", 4);
 
-        Domaine ja=new Domaine("ja",  "j", 0);
-        Domaine jb=new Domaine("jb",  "j", 1);
-        Domaine jc=new Domaine("jc",  "j", 2);
-        Domaine jd=new Domaine("jd", "j", 3);
-        Domaine je=new Domaine("je",  "j", 4);
+        Domaine ja=new Domaine("a",  "j", 0);
+        Domaine jb=new Domaine("b",  "j", 1);
+        Domaine jc=new Domaine("c",  "j", 2);
+        Domaine jd=new Domaine("d", "j", 3);
+        Domaine je=new Domaine("e",  "j", 4);
 
-        Domaine ka=new Domaine("ka",  "k", 0);
-        Domaine kb=new Domaine("kb",  "k", 1);
-        Domaine kc=new Domaine("kc",  "k", 2);
+        Domaine ka=new Domaine("a",  "k", 0);
+        Domaine kb=new Domaine("b",  "k", 1);
+        Domaine kc=new Domaine("c",  "k", 2);
 
 
         Contrainte iaja=new Contrainte(ia, ja);

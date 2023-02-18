@@ -95,7 +95,6 @@ public class AC4 implements AC{
             }
         }
 
-
         return true;
     }
 
@@ -121,23 +120,21 @@ public class AC4 implements AC{
 
                 List<Chaine> listChaine=suppr.get(domaine.getVariable()).get(domaine.getDomaine());
 
-
                 for(int i=0; i<listChaine.size(); i++){
                     if(listChaine.get(i).getDomaine().equals(de.get(de.size()-1))){
                         deChaine=listChaine.get(i);
                         listChaine.remove(i);
+
+                        support.get(domaine.getVariable()).get(domaine.getDomaine()).update(deChaine);
+
+                        if (support.get(domaine.getVariable()).get(domaine.getDomaine()).getPrecedent() != null) {
+                            support.get(domaine.getVariable()).put(domaine.getDomaine(), deChaine);
+                        }
                         break;
                     }
                 }
 
 
-                support.get(domaine.getVariable()).get(domaine.getDomaine()).update(deChaine);
-
-                if(support.get(domaine.getVariable()).get(domaine.getDomaine()).getPrecedent()!=null){
-                    support.get(domaine.getVariable()).put(domaine.getDomaine(), deChaine);
-                }
-
-//                support.get(domaine.getVariable()).get(domaine.getDomaine()).add(de.get(de.size()-1)); //TODO mettre le bon index
                 chaineDeSupportAUpdate=chaineDeSupportAUpdate.getSuivant();
                 if(chaineDeSupportAUpdate==null){
                     domaine=null;
@@ -157,8 +154,16 @@ public class AC4 implements AC{
         }
 
 
-        return support.get(v).get(d).contain(peek.peek());
+        return support.get(v).get(d).contain(peek.peek())
+                && DE.stream().noneMatch(o -> v.equals(o.getVariable()) && d.equals(o.getDomaine()));
     }
+
+//    @Override
+//    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) { //TODO: a revoir
+//        return graph.get(peek.peek().getVariable()).getContraintes().stream().anyMatch(o -> peek.peek().equals(o.getD1())
+//                && v.equals(o.getD2().getVariable()) && d.equals(o.getD2().getDomaine()))
+//                && DE.stream().noneMatch(o -> v.equals(o.getVariable()) && d.equals(o.getDomaine()));
+//    }
 
     @Override
     public Map<String, Map<String, Chaine>> getSupport() {

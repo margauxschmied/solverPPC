@@ -52,7 +52,7 @@ public class Domaine {
 
     @Override
     public String toString() {
-        return domaine;
+        return variable+":"+domaine;
     }
 
     public String getVariable() {

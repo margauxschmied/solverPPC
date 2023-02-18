@@ -7,6 +7,7 @@ import solver.AC.AC6;
 import solver.Parser;
 import solver.Propagation;
 import solver.graph.Variable;
+import solver.time.Stopwatch;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -17,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PropagationTest {
 
     private Propagation propagation;
+
+    private Stopwatch stopwatch = new Stopwatch();
 
 
     @BeforeEach
@@ -96,6 +99,7 @@ public class PropagationTest {
 
     }
 
+
     @Test
     void propagationAC4() {
         propagation =new Propagation(new AC4(), UtilTest.graph1);
@@ -138,6 +142,7 @@ public class PropagationTest {
         System.out.println(propagation.getAc().getSupport());
         System.out.println(propagation.getResulat());
         System.out.println(propagation.getDE());
+
     }
 
     @Test
@@ -308,6 +313,87 @@ public class PropagationTest {
 
         System.out.println(propagation.getAc().getSupport());
         System.out.println(propagation.getResulat());
+    }
+
+
+    @Test
+    void propagationAC37() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/message.txt");
+        System.out.println(graph);
+        stopwatch.start();
+        propagation =new Propagation(new AC3(), graph);
+
+        assertTrue(propagation.accept(0));
+        stopwatch.stop();
+
+        System.out.println(stopwatch.lastElapsedNanoSeconds());
+        stopwatch.reset();
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
+    void propagationAC47() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/message.txt");
+        System.out.println(graph);
+        stopwatch.start();
+        propagation =new Propagation(new AC4(), graph);
+
+        assertTrue(propagation.accept(0));
+        stopwatch.stop();
+
+        System.out.println(stopwatch.lastElapsedNanoSeconds());
+        stopwatch.reset();
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
+    void propagationAC67() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/message.txt");
+        System.out.println(graph);
+        stopwatch.start();
+        propagation =new Propagation(new AC6(), graph);
+
+        assertTrue(propagation.accept(0));
+        stopwatch.stop();
+
+        System.out.println(stopwatch.lastElapsedNanoSeconds());
+        stopwatch.reset();
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
+    }
+
+    @Test
+    void propagationAC20017() throws FileNotFoundException {
+        Parser parser =new Parser();
+
+        Map<String, Variable> graph=parser.parse("/Users/margauxschmied/Documents/master/M2/solverPPC/data/message.txt");
+        System.out.println(graph);
+        stopwatch.start();
+        propagation =new Propagation(new AC2001(), graph);
+
+        assertTrue(propagation.accept(0));
+        stopwatch.stop();
+
+        System.out.println(stopwatch.lastElapsedNanoSeconds());
+        stopwatch.reset();
+
+        System.out.println(propagation.getAc().getSupport());
+        System.out.println(propagation.getResulat());
+
     }
 
 }

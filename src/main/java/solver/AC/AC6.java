@@ -26,6 +26,7 @@ public class AC6 implements AC{
                     }
 
                     if(found && variable.getValue().getDomaine().get(j).equals(variable.getValue().getContraintes().get(k).getD1())){
+                        support.computeIfAbsent(variable.getValue().getContraintes().get(k).getD2().getVariable(), k1 -> new HashMap<>());
                         support.get(variable.getValue().getContraintes().get(k).getD2().getVariable()).computeIfAbsent(variable.getValue().getContraintes().get(k).getD2().getDomaine(), k1 -> new Chaine());
                     }
                 }
@@ -135,7 +136,8 @@ public class AC6 implements AC{
     @Override
     public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) { //TODO: a revoir
         return graph.get(peek.peek().getVariable()).getContraintes().stream().anyMatch(o -> peek.peek().equals(o.getD1())
-                && v.equals(o.getD2().getVariable()) && d.equals(o.getD2().getDomaine()));
+                && v.equals(o.getD2().getVariable()) && d.equals(o.getD2().getDomaine()))
+                && DE.stream().noneMatch(o -> v.equals(o.getVariable()) && d.equals(o.getDomaine()));
     }
 
     @Override

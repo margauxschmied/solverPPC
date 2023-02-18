@@ -48,7 +48,6 @@ public class Propagation {
 
 
         for (int d=0; d<((Variable) graph.values().toArray()[v]).getDomaine().size(); d++) {
-
             if(resulat.isEmpty() || ac.validChoice(resulat, (String) graph.keySet().toArray()[v], ((Variable) graph.values().toArray()[v]).getDomaine().get(d).getDomaine(), DE)) {
                 choose(((Variable) graph.values().toArray()[v]).getDomaine().get(d));
                 if (ac.filtre(DE)) {
@@ -67,7 +66,6 @@ public class Propagation {
                 return false;
             }
         }
-
         return false;
     }
 

@@ -59,6 +59,14 @@ public class ChaineTest {
         chaine.update(c);
         System.out.println(chaine);
 
+        System.out.println("remove Ac");
+        c=chaine.remove(Ac);
+        System.out.println(chaine);
+        System.out.println(c);
+
+        chaine.update(c);
+        System.out.println(chaine);
+
     }
 
     @Test
@@ -78,5 +86,53 @@ public class ChaineTest {
         chaine.update(c);
         System.out.println(chaine);
     }
+
+//    @Test
+//    void chaine3() {
+//        System.out.println(chaine);
+//
+//        chaine.add(Aa);
+//        System.out.println(chaine);
+//
+//        chaine.add(Ab);
+//        System.out.println(chaine);
+//
+//        Chaine c=chaine.remove(Ab);
+//        System.out.println(chaine);
+//        System.out.println(c);
+//
+//        chaine.update(Ab);
+//        System.out.println(chaine);
+//    }
+//
+//    @Test
+//    void chaine4() {
+//        System.out.println(chaine);
+//
+//        chaine.add(Aa);
+//        System.out.println(chaine);
+//
+//        chaine.add(Ab);
+//        System.out.println(chaine);
+//
+//        chaine.add(Ac);
+//        System.out.println(chaine);
+//
+//        Chaine c=chaine.remove(Ab);
+//        System.out.println(chaine);
+//        System.out.println(c);
+//
+//        chaine.update(Ab);
+//        System.out.println(chaine);
+//
+//        System.out.println("ici");
+//        c=chaine.remove(Aa);
+//        System.out.println(chaine);
+//        System.out.println(c);
+//
+//        chaine.update(Aa);
+//        System.out.println(chaine);
+//
+//    }
 
 }

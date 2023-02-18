@@ -32,7 +32,10 @@ public class Parser {
 
             String[] domaine=array[1].split(" ");
 
-            for(int i=1; i<domaine.length; i++){
+            int debut= Objects.equals(domaine[0], "")? 1 : 0;
+
+
+            for(int i=debut; i<domaine.length; i++){
                 graph.get(array[0]).addDomaine(new Domaine(domaine[i], array[0], i));
                 index.get(array[0]).put(domaine[i], i);
             }

@@ -99,10 +99,17 @@ public class AC2001 implements AC{
         }
     }
 
+//    @Override
+//    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) {
+//        return Objects.equals(support.get(peek.peek().getVariable()).get(peek.peek().getDomaine()).getDomaine().getVariable(), v)
+//                && Objects.equals(support.get(peek.peek().getVariable()).get(peek.peek().getDomaine()).getDomaine().getDomaine(), d);
+//    }
+
     @Override
-    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) {
-        return Objects.equals(support.get(peek.peek().getVariable()).get(peek.peek().getDomaine()).getDomaine().getVariable(), v)
-                && Objects.equals(support.get(peek.peek().getVariable()).get(peek.peek().getDomaine()).getDomaine().getDomaine(), d);
+    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) { //TODO: a revoir
+        return graph.get(peek.peek().getVariable()).getContraintes().stream().anyMatch(o -> peek.peek().equals(o.getD1())
+                && v.equals(o.getD2().getVariable()) && d.equals(o.getD2().getDomaine()))
+                && DE.stream().noneMatch(o -> v.equals(o.getVariable()) && d.equals(o.getDomaine()));
     }
 
     @Override
