@@ -14,11 +14,11 @@ public interface AC {
 
     boolean init(Map<String, Variable> graph);
 
-    boolean filtre(List<Domaine> DE);
+    boolean filtre(List<Chaine> DE);
 
     Map<String, Map<String, Chaine>> getSupport();
 
-    void backtrack(int pop, List<Domaine> de);
+    void backtrack(int pop, List<Chaine> de);
 
-    boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE);
+    boolean validChoice(Stack<Chaine> peek, Domaine domaine, List<Chaine> DE);
 }

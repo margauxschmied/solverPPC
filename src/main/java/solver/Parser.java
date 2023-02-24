@@ -36,7 +36,7 @@ public class Parser {
 
 
             for(int i=debut; i<domaine.length; i++){
-                graph.get(array[0]).addDomaine(new Domaine(domaine[i], array[0], i));
+                graph.get(array[0]).addDomaine(new Domaine(domaine[i], array[0]));
                 index.get(array[0]).put(domaine[i], i);
             }
         }
@@ -45,7 +45,7 @@ public class Parser {
 
             text=text.substring(0, text.length()-1);
             String[] array=text.split(" ");
-            graph.get(array[0]).addContrainte(new Contrainte(new Domaine(array[1], array[0], index.get(array[0]).get(array[1])), new Domaine(array[3], array[2], index.get(array[2]).get(array[3]))));
+            graph.get(array[0]).addContrainte(new Contrainte(new Domaine(array[1], array[0]), new Domaine(array[3], array[2])));
         }
 
         return graph;

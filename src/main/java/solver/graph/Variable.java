@@ -5,10 +5,12 @@ import java.util.List;
 
 public class Variable {
     private String name;
-    private List<Domaine> domaine;
+    private List<Chaine> domaine;
     private List<Contrainte> contraintes;
 
-    public Variable(String name, List<Domaine> domaine, List<Contrainte> contraintes) {
+
+
+    public Variable(String name, List<Chaine> domaine, List<Contrainte> contraintes) {
         this.name = name;
         this.domaine = domaine;
         this.contraintes=contraintes;
@@ -30,7 +32,7 @@ public class Variable {
         return name;
     }
 
-    public List<Domaine> getDomaine() {
+    public List<Chaine> getDomaine() {
         return domaine;
     }
 
@@ -40,14 +42,24 @@ public class Variable {
 
     public void addDomaine(Domaine d){
         if(domaine.size()!=0){
-            d.setPrecedent(domaine.get(domaine.size()-1));
-            domaine.get(domaine.size()-1).setNext(d);
+            Chaine chaine=new Chaine(d, domaine.get(domaine.size()-1));
+            domaine.get(domaine.size()-1).setSuivant(chaine);
         }
-        domaine.add(d);
+        Chaine chaine=new Chaine(d);
+        domaine.add(chaine);
     }
 
     public void addContrainte(Contrainte c){
         contraintes.add(c);
+    }
+
+    public Chaine getChaineByDomaine(Domaine domaine){
+        for (Chaine chaine: this.domaine){
+            if(chaine.getDomaine().equals(domaine)){
+                return chaine;
+            }
+        }
+        return null;
     }
 
     @Override

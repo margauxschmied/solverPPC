@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class UtilTest {
 
-    public static List<Domaine> DE1 = new ArrayList<>();
+    public static List<Chaine> DE1 = new ArrayList<>();
     public static List<Pair> DE2 = new ArrayList<>();
     public static List<Pair> DE3 = new ArrayList<>();
 
@@ -26,21 +26,21 @@ public class UtilTest {
 
 
     public static void setUp() {
-        Domaine ia=new Domaine("a", "i", 0);
-        Domaine ib=new Domaine("b", "i", 1);
-        Domaine ic=new Domaine("c",  "i", 2);
-        Domaine id=new Domaine("d",  "i", 3);
-        Domaine ie=new Domaine("e",  "i", 4);
+        Domaine ia=new Domaine("a", "i");
+        Domaine ib=new Domaine("b", "i");
+        Domaine ic=new Domaine("c",  "i");
+        Domaine id=new Domaine("d",  "i");
+        Domaine ie=new Domaine("e",  "i");
 
-        Domaine ja=new Domaine("a",  "j", 0);
-        Domaine jb=new Domaine("b",  "j", 1);
-        Domaine jc=new Domaine("c",  "j", 2);
-        Domaine jd=new Domaine("d", "j", 3);
-        Domaine je=new Domaine("e",  "j", 4);
+        Domaine ja=new Domaine("a",  "j");
+        Domaine jb=new Domaine("b",  "j");
+        Domaine jc=new Domaine("c",  "j");
+        Domaine jd=new Domaine("d", "j");
+        Domaine je=new Domaine("e",  "j");
 
-        Domaine ka=new Domaine("a",  "k", 0);
-        Domaine kb=new Domaine("b",  "k", 1);
-        Domaine kc=new Domaine("c",  "k", 2);
+        Domaine ka=new Domaine("a",  "k");
+        Domaine kb=new Domaine("b",  "k");
+        Domaine kc=new Domaine("c",  "k");
 
 
         Contrainte iaja=new Contrainte(ia, ja);
@@ -97,12 +97,12 @@ public class UtilTest {
         graph3.put("k", k);
 
 
-        Domaine Aa=new Domaine("Aa", "A", 0);
-        Domaine Ab=new Domaine("Ab", "A", 1);
-        Domaine Ba=new Domaine("Ba", "B", 0);
-        Domaine Bb=new Domaine("Bb", "B", 1);
-        Domaine Ca=new Domaine("Ca", "C", 0);
-        Domaine Cb=new Domaine("Cb", "C", 1);
+        Domaine Aa=new Domaine("Aa", "A");
+        Domaine Ab=new Domaine("Ab", "A");
+        Domaine Ba=new Domaine("Ba", "B");
+        Domaine Bb=new Domaine("Bb", "B");
+        Domaine Ca=new Domaine("Ca", "C");
+        Domaine Cb=new Domaine("Cb", "C");
 
 
         Contrainte AaBa=new Contrainte(Aa, Ba);
@@ -129,12 +129,12 @@ public class UtilTest {
         graph4.put("B", B);
         graph4.put("C", C);
 
-        Domaine A1=new Domaine("A1", "A", 0);
-        Domaine A2=new Domaine("A2", "A", 1);
-        Domaine B1=new Domaine("B1", "B", 0);
-        Domaine B2=new Domaine("B2", "B", 1);
-        Domaine B3=new Domaine("B3", "B", 2);
-        Domaine C1=new Domaine("C1", "C", 0);
+        Domaine A1=new Domaine("A1", "A");
+        Domaine A2=new Domaine("A2", "A");
+        Domaine B1=new Domaine("B1", "B");
+        Domaine B2=new Domaine("B2", "B");
+        Domaine B3=new Domaine("B3", "B");
+        Domaine C1=new Domaine("C1", "C");
 
 
         Contrainte A1B1=new Contrainte(A1, B1);
@@ -163,7 +163,7 @@ public class UtilTest {
         graph5.put("C", Cbis);
 
 
-        DE1.add(jc);
+        DE1.add(new Chaine(jc));
 
         DE2.add(new Pair("i", "ib"));
         DE2.add(new Pair("i", "ic"));

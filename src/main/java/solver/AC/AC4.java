@@ -2,7 +2,6 @@ package solver.AC;
 
 import solver.graph.Chaine;
 import solver.graph.Domaine;
-import solver.graph.Pair;
 import solver.graph.Variable;
 
 import java.util.*;
@@ -11,12 +10,12 @@ public class AC4 implements AC{
     private Map<String, Variable> graph;
     private Map<String, Map<String, Chaine>> support;
 
-    private Map<String, Map<String, List<Chaine>>> suppr=new HashMap<>();
+    private final Map<String, Map<String, List<Chaine>>> suppr=new HashMap<>();
 
     @Override
     public boolean init(Map<String, Variable> graph) {
         this.graph=graph;
-        this.support=new HashMap();
+        this.support=new HashMap<>();
 
         for (Map.Entry<String, Variable> variable : graph.entrySet()) {
 
@@ -41,15 +40,14 @@ public class AC4 implements AC{
     }
 
     @Override
-    public boolean filtre(List<Domaine> DE) {
+    public boolean filtre(List<Chaine> DE) {
 
         for(int i=0; i<DE.size(); i++) {
-            Chaine chaineDeSupportAUpdate = support.get(DE.get(i).getVariable()).get(DE.get(i).getDomaine());
+            Chaine chaineDeSupportAUpdate = support.get(DE.get(i).getDomaine().getVariable()).get(DE.get(i).getDomaine().getDomaine());
 
             if (chaineDeSupportAUpdate != null) {
                 Domaine domaine=chaineDeSupportAUpdate.getDomaine();
                 while(domaine!=null){
-//                for (Domaine domaine : chaineDeSupportAUpdate) {
                     suppr.computeIfAbsent(domaine.getVariable(), k1 -> new HashMap<>());
                     suppr.get(domaine.getVariable()).computeIfAbsent(domaine.getDomaine(), k1 -> new ArrayList<>());
 
@@ -64,11 +62,6 @@ public class AC4 implements AC{
                         }
                         suppr.get(domaine.getVariable()).get(domaine.getDomaine()).add(c);
                     }
-
-//                        if(c!=null
-//                                && suppr.get(domaine.getVariable()).get(domaine.getDomaine()).stream().anyMatch(c::equals)) {
-//                            suppr.get(domaine.getVariable()).get(domaine.getDomaine()).add(c);
-//                        }
 
                     chaineDeSupportAUpdate=chaineDeSupportAUpdate.getSuivant();
                     if(chaineDeSupportAUpdate==null){
@@ -101,27 +94,23 @@ public class AC4 implements AC{
 
 
     @Override
-    public void backtrack(int pop, List<Domaine> de) {
+    public void backtrack(int pop, List<Chaine> de) {
         for(int n=0; n<pop; n++){
-            suppr.computeIfAbsent(de.get(de.size()-1).getVariable(), k1 -> new HashMap<>());
-            suppr.get(de.get(de.size()-1).getVariable()).computeIfAbsent(de.get(de.size()-1).getDomaine(), k1 -> new ArrayList<>());
+            suppr.computeIfAbsent(de.get(de.size()-1).getDomaine().getVariable(), k1 -> new HashMap<>());
+            suppr.get(de.get(de.size()-1).getDomaine().getVariable()).computeIfAbsent(de.get(de.size()-1).getDomaine().getDomaine(), k1 -> new ArrayList<>());
 
-            Chaine chaineDeSupportAUpdate=support.get(de.get(de.size()-1).getVariable()).get(de.get(de.size()-1).getDomaine());
+            Chaine chaineDeSupportAUpdate=support.get(de.get(de.size()-1).getDomaine().getVariable()).get(de.get(de.size()-1).getDomaine().getDomaine());
             Domaine domaine=chaineDeSupportAUpdate.getDomaine();
 
 
-
-
-
             while(domaine!=null){
-//            for(Domaine domaine: chaineDeSupportAUpdate){
 
-                Chaine deChaine = null;
+                Chaine deChaine;
 
                 List<Chaine> listChaine=suppr.get(domaine.getVariable()).get(domaine.getDomaine());
 
                 for(int i=0; i<listChaine.size(); i++){
-                    if(listChaine.get(i).getDomaine().equals(de.get(de.size()-1))){
+                    if(listChaine.get(i).getDomaine().equals(de.get(de.size()-1).getDomaine())){
                         deChaine=listChaine.get(i);
                         listChaine.remove(i);
 
@@ -148,22 +137,15 @@ public class AC4 implements AC{
     }
 
     @Override
-    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) {
-        if(support.get(v).get(d)==null){
+    public boolean validChoice(Stack<Chaine> peek, Domaine domaine, List<Chaine> DE) {
+        if(support.get(domaine.getVariable()).get(domaine.getDomaine())==null){
             return false;
         }
 
 
-        return support.get(v).get(d).contain(peek.peek())
-                && DE.stream().noneMatch(o -> v.equals(o.getVariable()) && d.equals(o.getDomaine()));
+        return support.get(domaine.getVariable()).get(domaine.getDomaine()).contain(peek.peek().getDomaine())
+                && DE.stream().noneMatch(o -> o.getDomaine().equals(domaine));
     }
-
-//    @Override
-//    public boolean validChoice(Stack<Domaine> peek, String v, String d, List<Domaine> DE) { //TODO: a revoir
-//        return graph.get(peek.peek().getVariable()).getContraintes().stream().anyMatch(o -> peek.peek().equals(o.getD1())
-//                && v.equals(o.getD2().getVariable()) && d.equals(o.getD2().getDomaine()))
-//                && DE.stream().noneMatch(o -> v.equals(o.getVariable()) && d.equals(o.getDomaine()));
-//    }
 
     @Override
     public Map<String, Map<String, Chaine>> getSupport() {
