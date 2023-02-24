@@ -2,8 +2,6 @@ package solver.graph;
 
 public class Domaine {
     private String domaine;
-//    private Domaine precedent;
-//    private Domaine next;
     private String variable;
 
     public Domaine(String val, String var) {
